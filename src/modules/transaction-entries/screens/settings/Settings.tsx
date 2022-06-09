@@ -1,25 +1,22 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { Picker } from "@react-native-picker/picker"
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { View } from "react-native"
 import { Button, Text } from '@rneui/base'
-import { DisplayOptions } from "../types/definitions"
-
-
-/**
- * Type for props to be passed by App when mounting AddEntry
- */
-type Props = {
-    setDisplayOption: Function,
-    cancelSetSetting: Function
-}
+import { DisplayOptions } from "../../types/definitions"
+import { TransactionEntryContext } from "../../contexts/Contexts"
+import { useNavigation } from "@react-navigation/native"
 
 type IState = {
     displayOption: DisplayOptions | null
 }
 
-const Settings: React.FC<Props> = ({ setDisplayOption, cancelSetSetting }) => {
-    
+const Settings: React.FC = () => {
+
+    const { handleSetDisplayOption } = useContext(TransactionEntryContext)!;
+
+    const navigation = useNavigation();
+
     const [state, setState] = useState<IState>({
         displayOption: null //this should really be gotten from AsyncStorage on ComponentDidMount
     })
@@ -34,24 +31,24 @@ const Settings: React.FC<Props> = ({ setDisplayOption, cancelSetSetting }) => {
 
     const getDisplayOption = async () => {
         try {
-          const value = await AsyncStorage.getItem('displayOption');
-          if(value !== null) {
-            // value previously stored
-            setState({...state, displayOption: parseInt(value)})
-            
-          }else{
-              //return default option
-              setState({...state, displayOption: DisplayOptions.SECTION_LIST_BY_DATE})
-          }
-        } catch(e) {
-          // error reading value
+            const value = await AsyncStorage.getItem('displayOption');
+            if (value !== null) {
+                // value previously stored
+                setState({ ...state, displayOption: parseInt(value) })
+
+            } else {
+                //return default option
+                setState({ ...state, displayOption: DisplayOptions.SECTION_LIST_BY_DATE })
+            }
+        } catch (e) {
+            // error reading value
         }
-      }
+    }
 
     useEffect(
         () => {
             getDisplayOption()
-        },[]
+        }, []
     )
 
     return (
@@ -71,10 +68,9 @@ const Settings: React.FC<Props> = ({ setDisplayOption, cancelSetSetting }) => {
                 style={{ width: '100%' }}
                 selectedValue={state.displayOption}
                 onValueChange={(itemValue, itemIndex) => {
-                    //setState({ ...state, displayOption: itemValue }) //display in this component
-                    //do async storage instead of setState here, as the next call to App function will close settings
+                    setState({ ...state, displayOption: itemValue }) //display in this component
                     storeDisplayOption(itemValue!.toString());
-                    setDisplayOption(itemValue); //talk to App.tsx to set. Later move this to general settings save later
+                    handleSetDisplayOption(itemValue); //talk to App.tsx to set. Later move this to general settings save later
                 }
                 }>
                 <Picker.Item label="Flat List" value={DisplayOptions.FLAT_LIST} />
@@ -87,7 +83,7 @@ const Settings: React.FC<Props> = ({ setDisplayOption, cancelSetSetting }) => {
                 title="Close"
                 onPress={() => {
                     //call create which will also make the form disappear
-                    cancelSetSetting();
+                    navigation.goBack();
                 }}
                 buttonStyle={{ backgroundColor: 'orange' }}
             />

@@ -1,8 +1,7 @@
 import 'reflect-metadata';
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
 //import ExamplesHome from './src/modules/examples/ExamplesHome';
-import TransactionEntryHome from './src/modules/transaction-entries/TransactionEntryHome';
+import TransactionEntryLanding from './src/modules/transaction-entries/TransactionEntryLanding';
 import { Text } from '@rneui/base';
 import useCachedResources from './src/global/hooks/useCachedResources';
 
@@ -16,7 +15,7 @@ const App: React.FC = () => {
     if (dataSource) {
       return (
         <>
-          <TransactionEntryHome dataSource={dataSource} />
+          <TransactionEntryLanding dataSource={dataSource} />
           {/*<ExamplesHome dataSource={dataSource} />*/}
         </>
       )
@@ -34,21 +33,13 @@ const App: React.FC = () => {
     return null;
   } else {
     return (
-      <SafeAreaView style={styles.container}>
+      <>
         {display()}
-      </SafeAreaView>
+        {/* Below is just a footer message */}
+        <Text style={{ padding: 6, fontSize: 14, fontStyle: "italic", textAlign: 'center' }}>Copyright: Pius Onobhayedo</Text>
+      </>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: { fontSize: 16, color: 'black' },
-});
 
 export default App;

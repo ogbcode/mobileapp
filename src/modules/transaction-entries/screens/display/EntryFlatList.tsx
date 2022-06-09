@@ -3,7 +3,7 @@ import { View, FlatList, StyleSheet } from 'react-native';
 import { Badge, Text } from '@rneui/base';
 
 import EntryFlatListItem from './EntryFlatListItem';
-import { ITransactionEntry } from '../types/definitions';
+import { ITransactionEntry } from '../../types/definitions';
 
 type Props = {
     entries: ITransactionEntry[] | [] //array of entries

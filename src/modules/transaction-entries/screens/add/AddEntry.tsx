@@ -1,15 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { Button, Input, Text, CheckBox } from '@rneui/base';
 import DateTimePicker from '@react-native-community/datetimepicker'; //installation required
-
-/**
- * Type for props to be passed by Parent Component when mounting AddEntry
- */
-type Props = {
-    createEntry: Function,
-    cancelCreateEntry: Function
-}
+import { TransactionEntryContext } from '../../contexts/Contexts';
+import { useNavigation } from '@react-navigation/native';
 
 /**
  * Type for state variable for the form
@@ -24,7 +18,12 @@ type IState = {
     expense: boolean
 }
 
-const AddEntry: React.FC<Props> = ({ createEntry, cancelCreateEntry }) => {
+const AddEntry: React.FC = () => {
+
+    const {createEntry} = useContext(TransactionEntryContext)!;
+
+    const navigation = useNavigation();
+    
     const date = new Date(); // for initializing all the dates.
     const [state, setState] = useState<IState>({
         txnDay: date.getDay(),
@@ -94,13 +93,13 @@ const AddEntry: React.FC<Props> = ({ createEntry, cancelCreateEntry }) => {
                     title="Submit"
                     onPress={() => {
                         //call create which will also make the form disappear
-                        createEntry(state);
+                        createEntry(state, navigation);
                     }}
                 /><Button style={[styles.inputContainerStyle, { paddingLeft: 1 }]}
                     title="Cancel"
                     onPress={() => {
                         //call create which will also make the form disappear
-                        cancelCreateEntry();
+                        navigation.goBack();
                     }}
                     buttonStyle={{ backgroundColor: 'orange' }}
                 />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text } from '@rneui/base';
-import { ITransactionEntry } from '../types/definitions';
+import { ITransactionEntry } from '../../types/definitions';
 
 
 type Props = {

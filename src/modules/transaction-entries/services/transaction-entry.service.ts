@@ -8,22 +8,14 @@ export const getTransactionEntries = async (dataSource: DataSource, setTransacti
     try {
         const transactionEntryRepository: Repository<TransactionEntry> = dataSource.getRepository(TransactionEntry);
         let transactionEntries = await transactionEntryRepository.find();
-        //Below really should not be here. It is just to load some fictitious data for quick test of our data source.
-        /*if (transactionEntries.length === 0) {
-            const newTransactionEntry = new TransactionEntry();
-            newTransactionEntry.description = 'Just a sample entry';
-            newTransactionEntry.amount = 1000;
-            await transactionEntryRepository.save(newTransactionEntry);
-            transactionEntries = await transactionEntryRepository.find();
-        }*/
         setTransactionEntries(transactionEntries);
     } catch (error) {
         setTransactionEntries([]); //None available due to error
     }
 }
 
-export const createTransactionEntry = async (dataSource: DataSource, transactionEntryData: TransactionEntry, transactionEntriesInState: TransactionEntry[], setTransactionEntries: React.Dispatch<React.SetStateAction<TransactionEntry[]>>, setOnAddEntry: React.Dispatch<React.SetStateAction<boolean>>) => {
-
+export const createTransactionEntry = async (dataSource: DataSource, transactionEntryData: TransactionEntry, transactionEntriesInState: TransactionEntry[], setTransactionEntries: React.Dispatch<React.SetStateAction<TransactionEntry[]>>, navigation: {navigate: Function}) => {
+    
     try {
         const transactionEntryRepository: Repository<TransactionEntry> = dataSource.getRepository(TransactionEntry);
         const newTransactionEntry = transactionEntryRepository.create(transactionEntryData);
@@ -32,7 +24,8 @@ export const createTransactionEntry = async (dataSource: DataSource, transaction
         const transactionEntries = transactionEntriesInState;
         transactionEntries.push(transactionEntry);
         setTransactionEntries(transactionEntries);
-        setOnAddEntry(false);
+        //setOnAddEntry(false);
+        navigation.navigate('TransactionEntryHomeScreen',{})//adding the second argument forces the destination to update immediately
     } catch (error) {
         console.log(error);
     }
