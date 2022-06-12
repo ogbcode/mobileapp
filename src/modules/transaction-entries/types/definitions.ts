@@ -1,3 +1,5 @@
+import { TransactionEntry } from "../entities/transaction-entry.entity";
+
 export interface ITransactionEntry {
     id?: number;
     txnDay?: number;
@@ -11,7 +13,7 @@ export interface ITransactionEntry {
 /**
  * Below is used for data passed to SectionList display
  */
-export interface EntriesInDateSections  {
+export interface EntriesInDateSections {
     data: ITransactionEntry[],
     title: string
 }
@@ -29,3 +31,15 @@ export type ISettings = {
     onSettings: boolean,
     displayOption: DisplayOptions
 }
+
+//As we are using TypeScript, we can optionally let stack navigator know which
+//screens to expect and which initial parameters may be passed to them during navigation
+//We will then have to use initialParams in each Stack.Screen to indicate the params specified in types
+//e.g. for EditEntryScreen would be initialParams={transactionEntryToEdit:TransactionEntry}
+
+export type AppStackParamList = {
+    TransactionEntryHomeScreen: undefined; //no parameters expected to be passed to route when called
+    AddEntryScreen: undefined;
+    EditEntryScreen: { transactionEntryToEdit: TransactionEntry }; //means that transactionEntryToEdit must be passed
+    SettingsScreen: undefined;
+};

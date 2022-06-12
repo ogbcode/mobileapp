@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { DisplayOptions } from '../../types/definitions';
 import { transformEntriesToDateSections } from '../../services/transaction-entry.service';
 import EntryFlatList from './EntryFlatList';
-import Spreadsheet from '../settings/Spreadsheet';
+import Spreadsheet from './Spreadsheet';
 import { TransactionEntryContext } from '../../contexts/Contexts';
 import EntrySectionList from './EntrySectionList';
 
@@ -14,8 +14,7 @@ const TransactionEntryHomeScreen: React.FC = () => {
 
     const {
         transactionEntries,
-        settings,
-        deleteEntry,
+        settings
     } = transactionEntryContext!
 
     /**
@@ -35,9 +34,9 @@ const TransactionEntryHomeScreen: React.FC = () => {
 
     const displayEntries = () => {
         switch (settings) {
-            case DisplayOptions.FLAT_LIST: return <EntryFlatList entries={transactionEntries} deleteEntry={deleteEntry} />
-            case DisplayOptions.SPREADSHEET: return <Spreadsheet entries={transactionEntries} deleteEntry={deleteEntry} />
-            default: return <EntrySectionList entriesInDateSections={getEntriesInDateSections} deleteEntry={deleteEntry} />
+            case DisplayOptions.FLAT_LIST: return <EntryFlatList entries={transactionEntries} />
+            case DisplayOptions.SPREADSHEET: return <Spreadsheet entries={transactionEntries} />
+            default: return <EntrySectionList entriesInDateSections={getEntriesInDateSections}  />
         }
     }
 

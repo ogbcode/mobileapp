@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { DataSource } from 'typeorm';
 import { TransactionEntry } from './entities/transaction-entry.entity';
-import { createTransactionEntry, deleteTransactionEntry, getTransactionEntries } from './services/transaction-entry.service';
-import { DisplayOptions } from './types/definitions';
+import { createTransactionEntry, deleteTransactionEntry, getTransactionEntries, updateTransactionEntry } from './services/transaction-entry.service';
+import { AppStackParamList, DisplayOptions } from './types/definitions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddEntry from './screens/add/AddEntry';
 import Settings from './screens/settings/Settings';
@@ -23,17 +23,16 @@ import { TransactionEntryContext } from './contexts/Contexts';
 import { View } from 'react-native';
 import { Button, Icon } from '@rneui/base';
 import { Menu, MenuDivider, MenuItem } from 'react-native-material-menu';
+import EditEntry from './screens/edit/EditEntry';
+
 
 //Create the Stack object
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<AppStackParamList>();
 
 //Prepare the App Stack with the Screens
 const AppStack = () => {
 
     const navigation = useNavigation();
-    
-    //@ts-ignore
-    //console.log(navigation.getCurrentRoute().name) //not in use. Was just for testing
 
     /**
      * Indicate whether menu should be visble or not.
@@ -75,7 +74,7 @@ const AppStack = () => {
                         pressColor="#ddd"
                         disabled={activeMenuItem === "AddEntryScreen"}
                         disabledTextColor='#bdbdbd'
-                        style={{padding: 3}}
+                        style={{ padding: 3 }}
                     >
                         <Icon
                             name="add"
@@ -95,7 +94,7 @@ const AppStack = () => {
 
                         disabled={activeMenuItem === "SettingsScreen"}
                         disabledTextColor='#bdbdbd'
-                        style={{padding: 3}}
+                        style={{ padding: 3 }}
                     >
                         <Icon
                             name="settings"
@@ -108,10 +107,11 @@ const AppStack = () => {
         );
     }
 
+
     return (
         <Stack.Navigator //this red will disappear in later versions of @react/types. Do not worry about it.
             initialRouteName='TransactionEntryHomeScreen'
-            
+
             screenOptions={{
                 headerBackTitleVisible: true,
                 headerMode: 'screen',
@@ -139,8 +139,8 @@ const AppStack = () => {
                 //There are other possibilities. See https://reactnavigation.org/docs/stack-navigator
             }} >
             <Stack.Screen name="TransactionEntryHomeScreen" component={TransactionEntryHomeScreen}
-                
-                //there are other possibilities, see https://reactnavigation.org/docs/screen
+
+            //there are other possibilities, see https://reactnavigation.org/docs/screen
             />
             <Stack.Screen name="AddEntryScreen" component={AddEntry}
                 options={{
@@ -154,6 +154,11 @@ const AppStack = () => {
                         setActiveMenuItem('')
                     }
                 }} />
+            <Stack.Screen name="EditEntryScreen" component={EditEntry}
+                options={{
+                    title: 'Edit Entry'
+                }}
+            />
             <Stack.Screen name="SettingsScreen" component={Settings}
                 options={{
                     title: 'Settings'
@@ -180,7 +185,6 @@ const TransactionEntryLanding: React.FC<Props> = ({ dataSource }) => {
 
     //As usual, we need to state manage
     const [transactionEntries, setTransactionEntries] = useState<TransactionEntry[]>([]);
-    //const [onAddEntry, setOnAddEntry] = useState<boolean>(false);
 
     //for settings. Better to use objects in state for multiple settings. Change this later to {} when there are more settings.
     const [settings, setSettings] = useState<DisplayOptions>(DisplayOptions.SECTION_LIST_BY_DATE)
@@ -191,6 +195,14 @@ const TransactionEntryLanding: React.FC<Props> = ({ dataSource }) => {
    */
     const createEntry = (transactionEntryData: TransactionEntry, navigation: { navigate: Function }) => {
         createTransactionEntry(dataSource, transactionEntryData, transactionEntries, setTransactionEntries, navigation);
+    }
+
+    /**
+   * Function to edit an  entry
+   * @param editedTransactionEntryData
+   */
+    const updateEntry = (editedTransactionEntryData: TransactionEntry, navigation: { navigate: Function }) => {
+        updateTransactionEntry(dataSource, editedTransactionEntryData, transactionEntries, setTransactionEntries, navigation);
     }
 
     /**
@@ -236,6 +248,7 @@ const TransactionEntryLanding: React.FC<Props> = ({ dataSource }) => {
                 transactionEntries,
                 settings,
                 createEntry,
+                updateEntry,
                 deleteEntry,
                 handleSetDisplayOption
             }

@@ -3,12 +3,14 @@ import { View, StyleSheet, Platform } from 'react-native';
 import { Button, Input, Text, CheckBox } from '@rneui/base';
 import DateTimePicker from '@react-native-community/datetimepicker'; //installation required
 import { TransactionEntryContext } from '../../contexts/Contexts';
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { TransactionEntry } from '../../entities/transaction-entry.entity';
 
 /**
  * Type for state variable for the form
  */
 type IState = {
+    id: number,
     txnDay: number | null;
     txnMonth: number | null;
     txnYear: number | null;
@@ -18,28 +20,34 @@ type IState = {
     expense: boolean
 }
 
-const AddEntry: React.FC = () => {
+const EditEntry: React.FC = () => {
 
-    const {createEntry} = useContext(TransactionEntryContext)!;
+    const { updateEntry } = useContext(TransactionEntryContext)!;
+
+    //const route = useRoute();
+    //below is the right declaration for TypeScript but looks complicated.
+    const route = useRoute<RouteProp<Record<string, { transactionEntryToEdit: TransactionEntry }>>>();
+    const transactionEntryToEdit = route.params.transactionEntryToEdit;
 
     const navigation = useNavigation();
-    
+
     const date = new Date(); // for initializing all the dates.
     const [state, setState] = useState<IState>({
-        txnDay: date.getDate(),
-        txnMonth: date.getMonth(),
-        txnYear: date.getFullYear(),
-        date,
-        description: '',
-        amount: 0,
-        expense: true
+        id: transactionEntryToEdit.id,
+        txnDay: transactionEntryToEdit.txnDay,
+        txnMonth: transactionEntryToEdit.txnMonth,
+        txnYear: transactionEntryToEdit.txnYear,
+        date: new Date(transactionEntryToEdit.txnYear,transactionEntryToEdit.txnMonth,transactionEntryToEdit.txnDay),
+        description: transactionEntryToEdit.description,
+        amount: transactionEntryToEdit.amount,
+        expense: transactionEntryToEdit.expense?true:false
     })
 
     const [showDatePicker, setShowDatePicker] = useState(Platform.OS === "ios" ? true : false);
 
     return (
         <View style={styles.container}>
-            <Text h3 style={styles.inputContainerStyle}>Make new entry</Text>
+            <Text h3 style={styles.inputContainerStyle}>Edit displayed values</Text>
             {/* Only show button below if the OS is not ios. IOS DateTimePicker is visible by default */}
             {Platform.OS !== "ios" && <Button style={styles.inputContainerStyle}
                 title="Select Date"
@@ -73,6 +81,7 @@ const AddEntry: React.FC = () => {
             />
             <Input
                 label="Description"
+                value={state.description}
                 placeholder="Enter brief transaction description here"
                 multiline
                 inputContainerStyle={styles.inputContainerStyle}
@@ -81,6 +90,7 @@ const AddEntry: React.FC = () => {
             />
             <Input
                 label="Amount"
+                value={state.amount.toString()}
                 placeholder="Enter amount here"
                 keyboardType="numeric"
                 inputContainerStyle={styles.inputContainerStyle}
@@ -90,10 +100,12 @@ const AddEntry: React.FC = () => {
 
             <View style={{ flexDirection: 'row' }}>
                 <Button style={[styles.inputContainerStyle, { paddingRight: 1 }]}
-                    title="Submit"
+                    title="Save"
                     onPress={() => {
                         //call create which will also make the form disappear
-                        createEntry(state, navigation);
+                        //remove date before sending because it is not in the TransactionEntry table. Only the breakdown day, month, year are there
+                        const {date, ...updatedTransactionEntryData} = state;
+                        updateEntry(updatedTransactionEntryData, navigation);
                     }}
                 /><Button style={[styles.inputContainerStyle, { paddingLeft: 1 }]}
                     title="Cancel"
@@ -122,4 +134,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AddEntry;
+export default EditEntry;

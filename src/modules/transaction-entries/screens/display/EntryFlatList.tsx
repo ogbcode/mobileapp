@@ -7,17 +7,16 @@ import { ITransactionEntry } from '../../types/definitions';
 
 type Props = {
     entries: ITransactionEntry[] | [] //array of entries
-    deleteEntry: Function
 }
 
-const EntryFlatList: React.FC<Props> = ({ entries, deleteEntry }) => {
+const EntryFlatList: React.FC<Props> = ({ entries }) => {
 
     return (
         <FlatList
             style={{ width: '100%', padding: 3, backgroundColor: 'skyblue' }}
             data={entries}
             renderItem={({ item }) => (
-                <EntryFlatListItem item={item} deleteEntry={deleteEntry} />
+                <EntryFlatListItem item={item} />
             )}
             ListHeaderComponent={
                 () => (

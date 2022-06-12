@@ -1,16 +1,23 @@
-import React from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import React, { useContext } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { ButtonGroup, Icon, Text, Button } from '@rneui/base';
 import { ITransactionEntry } from '../../types/definitions';
-import { showAlert, showDeleteConfirmation } from '../../../../global/tools/show-alert';
+import { showDeleteConfirmation } from '../../../../global/tools/show-alert';
+import { useNavigation } from '@react-navigation/native';
+import { TransactionEntryContext } from '../../contexts/Contexts';
 
 type Props = {
     item: ITransactionEntry;
-    deleteEntry: Function;
 }
 
-const EntryFlatListItem: React.FC<Props> = ({ item, deleteEntry }) => {
+const EntryFlatListItem: React.FC<Props> = ({ item }) => {
 
+    const navigation = useNavigation();
+
+    const transactionEntryContext = useContext(TransactionEntryContext);
+
+    const { deleteEntry } = transactionEntryContext!
+    
     return (
         <View style={styles.inputContainerStyle}>
             <Text style={{ fontSize: 18 }}>Date: {new Date(item.txnYear!, item.txnMonth!, item.txnDay!).toLocaleDateString('en-GB')}</Text>
@@ -28,7 +35,7 @@ const EntryFlatListItem: React.FC<Props> = ({ item, deleteEntry }) => {
                         type="clear"
                         title="Edit"
                         titleStyle={{ fontSize: 15 }}
-                        onPress={() => showAlert("Info", "Yet to be implemented")}
+                        onPress={() => navigation.navigate("EditEntryScreen" as never,{transactionEntryToEdit: item} as never)}
                     />,
                     <Button
                         icon={<Icon

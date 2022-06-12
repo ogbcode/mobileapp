@@ -31,6 +31,28 @@ export const createTransactionEntry = async (dataSource: DataSource, transaction
     }
 };
 
+export const updateTransactionEntry = async (dataSource: DataSource, updatedTransactionEntryData: TransactionEntry, transactionEntriesInState: TransactionEntry[], setTransactionEntries: React.Dispatch<React.SetStateAction<TransactionEntry[]>>, navigation: {navigate: Function}) => {
+    const {id, ...otherFields} = updatedTransactionEntryData;
+    
+    try {
+        const transactionEntryRepository: Repository<TransactionEntry> = dataSource.getRepository(TransactionEntry);
+        await transactionEntryRepository.update(id, otherFields);
+        
+        //adjust entry in state
+        const currentEntries = transactionEntriesInState;
+        //find the index corresponding to the item with the passed id
+        const index = currentEntries.findIndex((entry) => entry.id === id);
+        //replace with new data
+        currentEntries[index] = updatedTransactionEntryData;
+        
+        //update state with the updated
+        setTransactionEntries([...currentEntries]);
+        navigation.navigate('TransactionEntryHomeScreen',{})//adding the second argument forces the destination to update immediately
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const deleteTransactionEntry = async (dataSource: DataSource, id: number, transactionEntriesInState: TransactionEntry[], setTransactionEntries: React.Dispatch<React.SetStateAction<TransactionEntry[]>>) => {
     try {
         const transactionEntryRepository: Repository<TransactionEntry> = dataSource.getRepository(TransactionEntry);

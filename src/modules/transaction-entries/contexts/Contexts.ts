@@ -8,6 +8,7 @@ export type TransactionEntryContextType = {
     transactionEntries: TransactionEntry[],
     settings: DisplayOptions,
     createEntry: Function,
+    updateEntry: Function,
     deleteEntry: Function,
     handleSetDisplayOption: Function,
 }

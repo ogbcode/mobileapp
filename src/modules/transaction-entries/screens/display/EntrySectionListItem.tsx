@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ButtonGroup, Text, Button, Icon } from '@rneui/base';
 import { showAlert, showDeleteConfirmation } from '../../../../global/tools/show-alert';
 import { ITransactionEntry } from '../../types/definitions';
+import { TransactionEntryContext } from '../../contexts/Contexts';
+import { useNavigation } from '@react-navigation/native';
 
 
 type Props = {
     item: ITransactionEntry;
-    deleteEntry: Function;
 }
 
-const EntrySectionListItem: React.FC<Props> = ({ item, deleteEntry }) => {
+const EntrySectionListItem: React.FC<Props> = ({ item }) => {
 
+    const transactionEntryContext = useContext(TransactionEntryContext);
+    
+    const navigation = useNavigation();
+    
+    const { deleteEntry } = transactionEntryContext!
+    
     return (
         <View style={styles.inputContainerStyle}>
             <Text style={{ fontSize: 18 }}>Income?: {item.expense ? "No" : "Yes"}</Text>
@@ -28,7 +35,7 @@ const EntrySectionListItem: React.FC<Props> = ({ item, deleteEntry }) => {
                         type="clear"
                         title="Edit"
                         titleStyle={{ fontSize: 15 }}
-                        onPress={() => showAlert("Info", "Yet to be implemented")}
+                        onPress={() => navigation.navigate("EditEntryScreen" as never,{transactionEntryToEdit: item} as never)}
                     />,
                     <Button
                         icon={<Icon

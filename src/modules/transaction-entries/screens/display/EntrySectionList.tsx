@@ -2,15 +2,14 @@ import React from 'react';
 import { View, SectionList, StyleSheet } from 'react-native';
 import { Text } from '@rneui/base';
 import EntrySectionListItem from './EntrySectionListItem';
-import { EntriesInDateSections } from '../types/definitions';
+import { EntriesInDateSections } from '../../types/definitions';
 
 
 type Props = {
     entriesInDateSections: EntriesInDateSections[] //array of entries
-    deleteEntry: Function
 }
 
-const EntrySectionList: React.FC<Props> = ({ entriesInDateSections, deleteEntry }) => {
+const EntrySectionList: React.FC<Props> = ({ entriesInDateSections }) => {
 
     return (
         <SectionList
@@ -18,7 +17,7 @@ const EntrySectionList: React.FC<Props> = ({ entriesInDateSections, deleteEntry 
             sections={entriesInDateSections}
             keyExtractor={(item, index) => item + index.toString()}
             renderItem={({ item }) => (
-                <EntrySectionListItem item={item} deleteEntry={deleteEntry} />
+                <EntrySectionListItem item={item} />
             )}
             renderSectionHeader={({ section: { title } }) => (
                 <Text style={styles.header}>{title}</Text>

@@ -5,11 +5,10 @@ import { ITransactionEntry } from '../../types/definitions';
 
 
 type Props = {
-    entries: ITransactionEntry[] | [] //array of entries
-    deleteEntry: Function
+    entries: ITransactionEntry[] //array of entries
 }
 
-const Spreadsheet: React.FC<Props> = ({ entries, deleteEntry }) => {
+const Spreadsheet: React.FC<Props> = ({ entries }) => {
 
     return (
         <View style={styles.container}>
