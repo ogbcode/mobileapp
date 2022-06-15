@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import { DisplayOptions } from '../../types/definitions';
 import { transformEntriesToDateSections } from '../../services/transaction-entry.service';
@@ -7,10 +7,14 @@ import EntryFlatList from './EntryFlatList';
 import Spreadsheet from './Spreadsheet';
 import { TransactionEntryContext } from '../../contexts/Contexts';
 import EntrySectionList from './EntrySectionList';
+import { Text, Icon } from '@rneui/base';
+import { useNavigation } from '@react-navigation/native';
 
 const TransactionEntryHomeScreen: React.FC = () => {
 
     const transactionEntryContext = useContext(TransactionEntryContext);
+
+    const navigation = useNavigation();
 
     const {
         transactionEntries,
@@ -44,6 +48,16 @@ const TransactionEntryHomeScreen: React.FC = () => {
         <View style={styles.container}>
             {/* Display entries as already predetermined in the function defined before return above, named displayEntries. Check it out again */}
             {displayEntries()}
+            <TouchableOpacity
+                style={{ height: 20, alignSelf: 'flex-end', top: -20 }}
+                onPress={() => navigation.navigate("AddEntryScreen" as never)}>
+                <Text><Icon
+                    name="add"
+                    color="green"
+                    size={20}
+                    raised={true}
+                /></Text>
+            </TouchableOpacity>
         </View>
     );
 }
