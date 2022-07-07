@@ -21,11 +21,11 @@ const EntrySectionListItem: React.FC<Props> = ({ item }) => {
     
     return (
         <View style={styles.inputContainerStyle}>
-            <Text style={{ fontSize: 18 }}>Income?: {item.expense ? "No" : "Yes"}</Text>
-            <Text style={{ fontSize: 18 }}>Description: {item.description}</Text>
-            <Text style={{ fontSize: 18 }}>Amount: {item.amount}</Text>
+            <Text style={{ fontSize: 18 }}>Task: {item.description}</Text>
+            <Text style={{ fontSize: 18 }}>Time: {item.amount}</Text>
+            <Text style={{ fontSize: 18 }}>Completed?: {item.expense ? "No" : "Yes"}</Text>
             <ButtonGroup
-                containerStyle={{ backgroundColor: 'skyblue', width: '40%', borderColor: 'skyblue' }}
+                containerStyle={{ backgroundColor: 'white', width: '40%', borderColor: 'yellow' }}
                 buttons={
                     [<Button
                         icon={<Icon
@@ -40,7 +40,7 @@ const EntrySectionListItem: React.FC<Props> = ({ item }) => {
                     <Button
                         icon={<Icon
                             name="delete"
-                            color="red"
+                            color="yellow"
                         />}
                         type="clear"
                         title="Delete"

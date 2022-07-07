@@ -12,7 +12,7 @@ const Spreadsheet: React.FC<Props> = ({ entries }) => {
 
     return (
         <View style={styles.container}>
-            <Text h4 style={{color: 'red', margin: 12, textAlign: 'center'}}> Apologies - spreadsheet display type is yet to be implemented!</Text>
+            <Text h4 style={{color: 'yellow', margin: 12, textAlign: 'center'}}> Apologies - spreadsheet display type is yet to be implemented!</Text>
             <Text h4 style={{color: 'green', margin: 12, textAlign: 'center'}}> Select another format from Settings menu above</Text>
         </View>
     )

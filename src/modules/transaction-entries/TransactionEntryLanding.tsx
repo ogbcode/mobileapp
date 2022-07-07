@@ -63,7 +63,7 @@ const AppStack = () => {
                         onPress={() => setMenuVisible(true)}
                     />}
                     onRequestClose={() => setMenuVisible(false)}
-                    style={{ backgroundColor: 'lightblue' }}
+                    style={{ backgroundColor: 'white' }}
                 >
                     <MenuItem
                         onPress={() => {
@@ -108,7 +108,7 @@ const AppStack = () => {
 
 
     return (
-        <Stack.Navigator //this red will disappear in later versions of @react/types. Do not worry about it.
+        <Stack.Navigator //this yellow will disappear in later versions of @react/types. Do not worry about it.
             initialRouteName='TransactionEntryHomeScreen'
 
             screenOptions={{
@@ -116,7 +116,7 @@ const AppStack = () => {
                 presentation: 'card',
                 keyboardHandlingEnabled: true,
                 headerStyle: {
-                    backgroundColor: 'lightblue',
+                    backgroundColor: 'green',
                     height: 90
                 },
                 headerTitleStyle: {
@@ -124,7 +124,7 @@ const AppStack = () => {
                     fontSize: 18,
                     //fontFamily: 'space-mono'
                 },
-                title: "Personal Transactions",
+                title: "TO-DO LIST",
                 //Below can be overriden at the level of stack.screen
                 headerRight: () => (
                     <View style={{ flexDirection: 'row' }}>
@@ -132,7 +132,7 @@ const AppStack = () => {
                             style={styles.logo}
                             onPress={() => navigation.navigate('TransactionEntryHomeScreen' as never)}>
                             <Image style={styles.logo}
-                                source={require('../../../assets/pau-logo-blue-transparent-background.png')}
+                                source={require('../../../assets/logo2.png')}
                             />
                         </TouchableOpacity>
                         {toggleMenu()}
@@ -229,7 +229,7 @@ const TransactionEntryLanding: React.FC<Props> = ({ dataSource }) => {
         try {
             const value = await AsyncStorage.getItem('displayOption');
             if (value !== null) {
-                // value previously stored
+                // value previously stoyellow
                 setSettings(parseInt(value))
             } else {
                 //return default option

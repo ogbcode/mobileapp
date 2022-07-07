@@ -8,6 +8,7 @@ export interface ITransactionEntry {
     description: string;
     amount: number;
     expense?: boolean
+    meridiem:string
 }
 
 /**

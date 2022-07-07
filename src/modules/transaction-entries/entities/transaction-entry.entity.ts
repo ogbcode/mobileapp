@@ -22,4 +22,7 @@ export class TransactionEntry {
 
   @Column({default: true})
   expense: boolean
+
+  @Column()
+  meridiem: string;
 }

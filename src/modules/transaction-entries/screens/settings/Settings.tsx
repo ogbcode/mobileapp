@@ -21,7 +21,7 @@ const Settings: React.FC = () => {
         displayOption: null //this should really be gotten from AsyncStorage on ComponentDidMount
     })
 
-    const storeDisplayOption = async (value: string) => {
+    const stoyellowisplayOption = async (value: string) => {
         try {
             await AsyncStorage.setItem('displayOption', value.toString())
         } catch (e) {
@@ -33,7 +33,7 @@ const Settings: React.FC = () => {
         try {
             const value = await AsyncStorage.getItem('displayOption');
             if (value !== null) {
-                // value previously stored
+                // value previously stoyellow
                 setState({ ...state, displayOption: parseInt(value) })
 
             } else {
@@ -69,7 +69,7 @@ const Settings: React.FC = () => {
                 selectedValue={state.displayOption}
                 onValueChange={(itemValue, itemIndex) => {
                     setState({ ...state, displayOption: itemValue }) //display in this component
-                    storeDisplayOption(itemValue!.toString());
+                    stoyellowisplayOption(itemValue!.toString());
                     handleSetDisplayOption(itemValue); //talk to App.tsx to set. Later move this to general settings save later
                 }
                 }>

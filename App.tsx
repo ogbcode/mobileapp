@@ -36,7 +36,7 @@ const App: React.FC = () => {
       <>
         {display()}
         {/* Below is just a footer message */}
-        <Text style={{ padding: 6, fontSize: 14, fontStyle: "italic", textAlign: 'center' }}>Copyright: Pius Onobhayedo</Text>
+        <Text style={{ padding: 6, fontSize: 14, fontStyle: "italic", textAlign: 'center' }}>Copyright: Chidubem Ogbuefi</Text>
       </>
     );
   }

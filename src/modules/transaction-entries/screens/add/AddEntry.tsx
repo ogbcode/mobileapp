@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { Button, Input, Text, CheckBox } from '@rneui/base';
-import DateTimePicker from '@react-native-community/datetimepicker'; //installation required
+import DateTimePicker from '@react-native-community/datetimepicker'; //installation requiyellow
 import { TransactionEntryContext } from '../../contexts/Contexts';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
@@ -17,6 +17,7 @@ type IState = {
     description: string;
     amount: number;
     expense: boolean
+    meridiem:string
 }
 
 const AddEntry: React.FC = () => {
@@ -33,14 +34,15 @@ const AddEntry: React.FC = () => {
         date,
         description: '',
         amount: 0,
-        expense: true
+        expense: true,
+        meridiem: '' 
     })
 
     const [showDatePicker, setShowDatePicker] = useState(Platform.OS === "ios" ? true : false);
 
     return (
         <View style={styles.container}>
-            <Text h3 style={styles.inputContainerStyle}>Make new entry</Text>
+            <Text h3 style={styles.inputContainerStyle}>Add New Task</Text>
             {/* Only show button below if the OS is not ios. IOS DateTimePicker is visible by default */}
             <View style={[styles.inputContainerStyle, { flexDirection: 'row', alignSelf: 'flex-start' }]}>
                 {Platform.OS !== "ios" &&  <Button
@@ -70,31 +72,30 @@ const AddEntry: React.FC = () => {
                 />}
             </View>
             <CheckBox
-                title='Income?'
+                title='Completed?'
                 containerStyle={[styles.inputContainerStyle, { marginTop: 10 }]}
                 checked={!state.expense}
                 onPress={() => { setState({ ...state, expense: !state.expense }) }}
                 style={styles.inputStyle}
             />
-            <Input
-                label="Description"
-                placeholder="Enter brief transaction description here"
+                <Input
+                label="Task"
+                placeholder="what task would you like to do"
                 multiline
                 inputContainerStyle={styles.inputContainerStyle}
                 leftIcon={{ type: 'font-awesome', name: 'comment' }}
                 onChangeText={description => setState({ ...state, description })}
                 style={styles.inputStyle}
+            
             />
             <Input
-                label="Amount"
-                placeholder="Enter amount here"
-                keyboardType="numeric"
+                label="Time"
+                placeholder="what time would you like to do this task"
                 inputContainerStyle={styles.inputContainerStyle}
                 leftIcon={{ type: 'font-awesome', name: 'money' }}
                 onChangeText={amount => setState({ ...state, amount: +amount })}
                 style={styles.inputStyle}
             />
-
             <View style={{ flexDirection: 'row' }}>
                 <Button style={[styles.inputContainerStyle, { paddingRight: 1 }]}
                     title="Submit"

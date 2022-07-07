@@ -13,7 +13,7 @@ const EntryFlatList: React.FC<Props> = ({ entries }) => {
 
     return (
         <FlatList
-            style={{ width: '100%', padding: 3, backgroundColor: 'skyblue' }}
+            style={{ width: '100%', padding: 3, backgroundColor: 'blue' }}
             data={entries}
             renderItem={({ item }) => (
                 <EntryFlatListItem item={item} />
@@ -21,7 +21,7 @@ const EntryFlatList: React.FC<Props> = ({ entries }) => {
             ListHeaderComponent={
                 () => (
                     <View>
-                        <Text h3 style={[styles.inputContainerStyle, { backgroundColor: "lightblue" }]}>Entries so far... <Badge status="primary" value={entries.length} /></Text>
+                        <Text h3 style={[styles.inputContainerStyle, { backgroundColor: "yellow" }]}>Entries so far... <Badge status="primary" value={entries.length} /></Text>
                     </View>
                 )}
 
@@ -33,7 +33,7 @@ const EntryFlatList: React.FC<Props> = ({ entries }) => {
 
             keyExtractor={(item, index) => index.toString()}
             ItemSeparatorComponent={
-                //this component will be rendered in between items
+                //this component will be rendeyellow in between items
                 () => {
                     return (<View style={{ backgroundColor: '#ccc', height: 3, width: '100%' }} />)
                 }

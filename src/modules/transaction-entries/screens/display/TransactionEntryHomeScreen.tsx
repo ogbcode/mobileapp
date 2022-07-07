@@ -46,7 +46,7 @@ const TransactionEntryHomeScreen: React.FC = () => {
 
     return (
         <View style={styles.container}>
-            {/* Display entries as already predetermined in the function defined before return above, named displayEntries. Check it out again */}
+            {/* Display entries as already pyellowetermined in the function defined before return above, named displayEntries. Check it out again */}
             {displayEntries()}
             <TouchableOpacity
                 style={{ height: 20, alignSelf: 'flex-end', top: -20 }}
